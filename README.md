@@ -1,3 +1,25 @@
+# NTUT-UTL Gerber to CTB
+### 北科大 UTL 實驗室 PCB UV 曝光檔轉換工具
+
+Browser-based Gerber-to-CTB converter for PCB UV exposure on the
+Phrozen Sonic Mighty 8K.
+
+This tool is designed for Gerber ZIP files exported from
+**EasyEDA Standard Edition**. It converts PCB copper and drill data
+into a CTB exposure file that can be used with the Phrozen Sonic Mighty 8K.
+
+專為 **EasyEDA Standard Edition** 輸出的 Gerber ZIP 檔設計，
+可將 PCB 銅箔層、板框與鑽孔資料轉換成 Phrozen Sonic Mighty 8K
+可使用的 CTB UV 曝光檔。
+
+Originally developed for the UTL Lab at
+National Taipei University of Technology (NTUT).
+
+最初開發用途為國立臺北科技大學 UTL 實驗室之 PCB 製作與 UV 曝光實驗。
+
+GitHub Pages:
+https://long-jun.github.io/Gerber2CTB_Mighty8K/
+
 ---
 
 ## 🚀 How to Use 使用方式
