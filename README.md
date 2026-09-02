@@ -1,210 +1,238 @@
-# NTUT-UTL Gerber to CTB
-### 北科大 UTL 實驗室 PCB UV 曝光檔轉換工具
+# UTL Gerber2CTB
 
-Browser-based Gerber-to-CTB converter for PCB UV exposure on the
-Phrozen Sonic Mighty 8K.
+**English** | [繁體中文](./README_zh.md)
 
-This tool is designed for Gerber ZIP files exported from
-**EasyEDA Standard Edition**. It converts PCB copper and drill data
-into a CTB exposure file that can be used with the Phrozen Sonic Mighty 8K.
 
-專為 **EasyEDA Standard Edition** 輸出的 Gerber ZIP 檔設計，
-可將 PCB 銅箔層、板框與鑽孔資料轉換成 Phrozen Sonic Mighty 8K
-可使用的 CTB UV 曝光檔。
+Browser-based Gerber-to-CTB converter for PCB UV exposure using the **Phrozen Sonic Mighty 8K**.
 
-Originally developed for the UTL Lab at
-National Taipei University of Technology (NTUT).
+## 📚 Overview
 
-最初開發用途為國立臺北科技大學 UTL 實驗室之 PCB 製作與 UV 曝光實驗。
+UTL Gerber2CTB converts Gerber ZIP files exported from **EasyEDA Standard Edition** into CTB exposure files for PCB UV exposure on the **Phrozen Sonic Mighty 8K**. The complete conversion runs locally in the browser and includes copper-layer selection, GKO-based masking, drill exposure control, preview, and CTB export.
 
-GitHub Pages:
-https://long-jun.github.io/Gerber2CTB_Mighty8K/
+Designed for Gerber ZIP files exported from **EasyEDA Standard Edition**. The tool reads PCB copper, board-outline, and selected drill data, generates exposure previews, and exports a CTB file for the Mighty 8K.
+
+**Online tool:**  
+https://long-jun.github.io/UTL_Gerber2CTB/
+
+Originally developed for PCB fabrication and UV-exposure experiments in the UTL Lab at National Taipei University of Technology (NTUT).
 
 ---
 
-## 🚀 How to Use 使用方式
+## 🔄 Workflow
+
+```text
+EasyEDA Standard
+      ↓
+Export Gerber ZIP
+      ↓
+Upload to UTL Gerber2CTB
+      ↓
+Select Top / Bottom Copper
+      ↓
+Set total exposure time
+      ↓
+Configure GKO expansion and drill exposure
+      ↓
+Check PCB ZOOM and LCD FULL FRAME
+      ↓
+Download CTB
+      ↓
+Phrozen Sonic Mighty 8K
+```
+
+---
+
+## ✨ Features
+
+- Designed for **EasyEDA Standard Edition** Gerber ZIP exports
+- Top Copper / Bottom Copper selection
+- Automatic closed-board-outline detection from GKO
+- Adjustable GKO exposure expansion
+- Negative-polarity PCB exposure mask
+- Independent drill exposure options for:
+  - `PTH_Through.DRL`
+  - `NPTH_Through.DRL`
+  - `PTH_Through_Via.DRL`
+- Drill diameters are read from Excellon tool definitions
+- PCB ZOOM preview for detailed inspection
+- LCD FULL FRAME preview for placement inspection
+- Automatic centering on the 7680 × 4320 Mighty 8K LCD
+- Browser-side CTB generation
+- No server-side Gerber processing
+
+---
+
+## 🚀 How to Use
 
 ### 1. Export Gerber ZIP from EasyEDA Standard
-### 從 EasyEDA Standard 匯出 Gerber ZIP
 
-Open your PCB project in **EasyEDA Standard Edition**.
+Open the PCB project in **EasyEDA Standard Edition** and export the fabrication Gerber files as a ZIP package.
 
-在 **EasyEDA Standard Edition** 中開啟 PCB 專案。
+A typical EasyEDA ZIP may contain:
 
-Export the fabrication Gerber files as a ZIP package.
+```text
+Gerber_TopLayer.GTL
+Gerber_BottomLayer.GBL
+Gerber_BoardOutlineLayer.GKO
+Drill_PTH_Through.DRL
+Drill_NPTH_Through.DRL
+Drill_PTH_Through_Via.DRL
+```
 
-將 PCB 製造檔案匯出為 Gerber ZIP。
+Copper and board-outline files are required for the normal workflow. Drill files are optional and can be enabled independently.
 
-The ZIP file should normally contain files such as:
-
-* `Gerber_TopLayer.GTL`
-* `Gerber_BottomLayer.GBL`
-* `Gerber_BoardOutlineLayer.GKO`
-* `Drill_PTH_Through.DRL`
-* `Drill_NPTH_Through.DRL`
-* `Drill_PTH_Through_Via.DRL`
-
-The exact filenames may vary slightly depending on the EasyEDA project.
-
-實際檔名可能因 EasyEDA 專案而略有不同，但至少需要包含銅箔層與板框資料。
-
----
-
-### 2. Open the Gerber-to-CTB web tool
-### 開啟 Gerber-to-CTB 網頁工具
+### 2. Open UTL Gerber2CTB
 
 Open:
 
-https://long-jun.github.io/Gerber2CTB_Mighty8K/
+https://long-jun.github.io/UTL_Gerber2CTB/
 
 No software installation is required.
 
-不需要安裝額外軟體，直接使用 Chrome、Edge 或其他現代瀏覽器即可。
-
----
-
 ### 3. Upload the Gerber ZIP
-### 上傳 Gerber ZIP
 
-Drag the Gerber ZIP file into the upload area, or click the upload area
-to select the ZIP file manually.
+Drag the ZIP onto the upload area or click the upload area to select the file.
 
-將 EasyEDA 匯出的 Gerber ZIP 拖曳到網頁中，
-或直接點擊上傳區域選擇檔案。
+The tool parses the Gerber and Excellon data locally in the browser.
 
-The tool automatically reads:
-
-* Top Copper
-* Bottom Copper
-* Board Outline (GKO)
-* PTH drill data
-* NPTH drill data
-* Via drill data
-
-工具會自動辨識銅箔層、GKO 板框與鑽孔資料。
-
----
-
-### 4. Select the PCB layer
-### 選擇要曝光的 PCB 層
+### 4. Select the Copper Layer
 
 Choose:
 
-* **Top Copper**
-* **Bottom Copper**
+- **Top Copper**
+- **Bottom Copper**
 
-選擇要產生曝光檔的銅箔層：
+### 5. Set Total Exposure Time
 
-* Top Copper
-* Bottom Copper
+`Total exposure time (s)` represents the requested accumulated UV exposure time.
 
----
-
-### 5. Set the exposure time
-### 設定曝光時間
-
-Enter the desired **total UV exposure time**.
-
-輸入希望 PCB 實際接受的總 UV 曝光時間。
-
-Example:
-
-`10.0 s`
-
-The generated CTB internally uses a 10-layer compatibility structure.
-The program automatically compensates the auxiliary layers so that the
-total exposure remains equal to the value entered by the user.
-
-例如輸入：
-
-`10.0 s`
-
-程式會自動補償 CTB 相容層的時間，使實際總曝光時間維持約 10.0 秒。
-
----
-
-### 6. Set GKO expansion
-### 設定板框外擴距離
-
-`GKO expansion (mm)` controls how far the UV exposure area extends
-outside the PCB board outline.
-
-`GKO expansion (mm)` 用來設定 UV 曝光區域在 PCB 板框外額外延伸的距離。
-
-Default:
-
-`0 mm`
+The generated CTB uses a 10-layer compatibility structure. Layers 2–10 use 0.1 s each, and the first layer is automatically compensated.
 
 For example:
 
-`2 mm`
+```text
+Requested total exposure = 10.0 s
 
-means the exposure region extends approximately 2 mm outside the
-closed GKO board outline.
+Layer 1  = 9.1 s
+Layer 2  = 0.1 s
+...
+Layer 10 = 0.1 s
 
----
+Total = 10.0 s
+```
 
-### 7. Select drill exposure
-### 選擇鑽孔曝光
+### 6. Set GKO Expansion
 
-The following drill files can be enabled independently:
+`GKO expansion (mm)` controls how far the active exposure region extends beyond the closed PCB board outline.
 
-* `PTH_Through.DRL`
-* `NPTH_Through.DRL`
-* `PTH_Through_Via.DRL`
+Default:
 
-Enabled drill holes are forced to **UV ON** according to their actual
-drill diameter.
+```text
+0 mm
+```
 
-三種鑽孔資料可以分別勾選。
+The expansion follows the actual closed GKO outline rather than only using a rectangular bounding box.
 
-勾選後，對應孔位會依實際孔徑加入 UV 曝光區。
+### 7. Select Drill Exposure
 
-Default setting:
+The following drill datasets can be enabled independently:
 
-* PTH Through: enabled
-* NPTH Through: disabled
-* PTH Through Via: disabled
+- `PTH_Through.DRL`
+- `NPTH_Through.DRL`
+- `PTH_Through_Via.DRL`
 
----
+Enabled drill locations are forced to **UV ON** using the actual drill diameter from the Excellon tool definition.
 
-### 8. Check the preview
-### 檢查預覽
+Default configuration:
 
-The tool provides two preview windows.
+- PTH Through: enabled
+- NPTH Through: disabled
+- PTH Through Via: disabled
 
-#### PCB ZOOM
+### 8. Check the Preview
 
-Automatically enlarges the PCB area based on the GKO board outline.
+Two previews are provided.
 
-依據 GKO 板框自動放大 PCB 區域，方便檢查：
+#### PCB ZOOM · GKO FRAME
 
-* Copper pattern
-* Drill holes
-* Negative mask
-* Board boundary
+Automatically enlarges the PCB region for inspecting:
+
+- Copper geometry
+- Negative polarity
+- Drill exposure
+- Board boundary
 
 #### LCD FULL FRAME
 
-Shows the actual PCB position on the full
-**7680 × 4320 Phrozen Sonic Mighty 8K LCD**.
+Shows the PCB location on the complete **7680 × 4320** Mighty 8K LCD.
 
-顯示 PCB 在 Mighty 8K LCD 上的實際位置，可用來確認是否置中。
+This view is useful for checking placement and centering before generating the CTB.
+
+### 9. Download CTB
+
+Click **Download CTB**.
+
+The CTB file is generated in the browser and downloaded directly.
 
 ---
 
-### 9. Download the CTB file
-### 下載 CTB
+## 🖨️ Target Printer Profile
 
-Click:
+Current CTB output is designed for:
 
-**Download CTB**
+| Parameter | Value |
+|---|---:|
+| Printer | Phrozen Sonic Mighty 8K |
+| LCD resolution | 7680 × 4320 |
+| Build area | 218.88 × 123.12 mm |
+| Pixel size | 28.5 µm |
+| CTB format | CTB v4 |
 
-The browser will generate and download the CTB file.
+---
 
-按下 **Download CTB** 後，瀏覽器會直接產生 CTB 曝光檔。
+## 🗂️ Project Structure
 
-The file can then be copied to the storage device used by the
-Phrozen Sonic Mighty 8K.
+```text
+UTL_Gerber2CTB/
+├── index.html
+├── README.md
+├── README.zh-TW.md
+└── LICENSE
+```
 
-產生的 CTB 檔即可再傳送至 Phrozen Sonic Mighty 8K 使用。
+The application is implemented as a static browser application and can be hosted directly with GitHub Pages.
+
+---
+
+## 📝 Notes
+
+- The current workflow was developed and validated around Gerber ZIP files exported from **EasyEDA Standard Edition**.
+- Always inspect the generated preview before exposure.
+- Verify the printer setup and Z-axis configuration before using a resin printer as a PCB UV exposure system.
+- CTB compatibility behavior may vary between printer firmware versions.
+
+---
+
+## 🌐 GitHub Pages
+
+Deploy from the `main` branch and `/ (root)` directory under **Settings → Pages**.
+
+The published tool is available at:
+
+https://long-jun.github.io/UTL_Gerber2CTB/
+
+---
+
+## 📜 License
+
+This project is licensed under the **Apache License 2.0**.
+
+See [LICENSE](./LICENSE) for details.
+
+---
+
+## 🙌 Acknowledgements
+
+Originally developed for PCB fabrication and UV-exposure experiments in the **UTL Lab, National Taipei University of Technology (NTUT)**.
+
+Feedback, bug reports, and improvements are welcome through GitHub Issues.
